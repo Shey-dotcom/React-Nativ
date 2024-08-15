@@ -1,10 +1,6 @@
-import { API_URL, KEYS } from "../constants";
-import * as SecureStore from "expo-secure-store";
-
-export const fetchMe = async () => {
-  const p = await SecureStore.getItemAsync(KEYS.JWT);
-  if (!p) return null;
-  const { jwt } = JSON.parse(p);
+import { API_URL } from "../constants";
+export const fetchMe = async (jwt) => {
+  if (!!!jwt) return null;
   const result = await fetch(`${API_URL}/api/v1/auth/me`, {
     method: "GET",
     headers: {
@@ -29,12 +25,9 @@ export const loginFn = async ({ email, password }) => {
       credentials: true,
     });
     const json = await result.json();
-
     if (json.error) {
       return { error: json.error };
     }
-
-    await SecureStore.setItemAsync(KEYS.JWT, JSON.stringify(json));
     return json;
   } catch (e) {
     return { error: e.message };
@@ -43,7 +36,6 @@ export const loginFn = async ({ email, password }) => {
 
 export const registerFn = async ({ email, password }) => {
   try {
-    // fetch POST request to /login
     const result = await fetch(`${API_URL}/api/v1/auth/register`, {
       method: "POST",
       headers: {
@@ -56,8 +48,22 @@ export const registerFn = async ({ email, password }) => {
     if (json.error) {
       return { error: json.error };
     }
-
-    await SecureStore.setItemAsync(KEYS.JWT, JSON.stringify(json));
+    return json;
+  } catch (e) {
+    return { error: e.message };
+  }
+};
+export const logoutFn = async ({ jwt }) => {
+  try {
+    const result = await fetch(`${API_URL}/api/v1/auth/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
+      },
+      credentials: true,
+    });
+    const json = await result.json();
     return json;
   } catch (e) {
     return { error: e.message };
