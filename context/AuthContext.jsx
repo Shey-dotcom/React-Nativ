@@ -2,15 +2,15 @@ import React from "react";
 import * as SecureStore from "expo-secure-store";
 import { API_URL, KEYS } from "../constants";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchMe, loginFn, registerFn } from "./handlers";
+import { fetchMe, loginFn, logoutFn, registerFn } from "./handlers";
 
 const AuthContext = React.createContext({
   jwt: null,
   me: null,
   loading: false,
-  login: () => {},
-  register: () => {},
-  logout: () => {},
+  login: async () => {},
+  register: async () => {},
+  logout: async () => {},
 });
 
 export const useAuth = () => {
@@ -24,7 +24,11 @@ export const AuthProvider = ({ children }) => {
     loading: false,
   });
 
-  const { data: me, isLoading: loadingMe } = useQuery({
+  const {
+    data: me,
+    isLoading: loadingMe,
+    refetch: refetchMe,
+  } = useQuery({
     queryKey: ["me"],
     queryFn: fetchMe,
   });
@@ -33,37 +37,41 @@ export const AuthProvider = ({ children }) => {
     mutationKey: ["login"],
     mutationFn: loginFn,
   });
-  const { mutateAsync: mutateRegister, isPending: registerIn } = useMutation({
+  const { mutateAsync: mutateRegister, isPending: registering } = useMutation({
     mutationKey: ["register"],
     mutationFn: registerFn,
   });
+  const { mutateAsync: mutateLogout, isPending: loggingOut } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: logoutFn,
+  });
 
-  React.useEffect(() => {
-    setAuthState((s) => ({
-      ...s,
-      loading: loadingMe || loggingIn || registerIn,
-      me,
-    }));
-  }, [loadingMe, me, loggingIn, registerIn]);
+  // React.useEffect(() => {
+  //   setAuthState((s) => ({
+  //     ...s,
+  //     loading: loggingIn || registering || loggingOut,
+  //     me,
+  //   }));
+  // }, [me, loggingIn, registering, loggingOut]);
 
-  React.useEffect(() => {
-    (async () => {
-      // Load token on startup
-      const data = await SecureStore.getItemAsync(KEYS.JWT);
-      if (data) {
-        const object = JSON.parse(data);
-        // Set our context state
-        setAuthState((s) => ({ ...s, jwt: object.jwt }));
-      }
-    })();
-  }, []);
+  // React.useEffect(() => {
+  //   (async () => {
+  //     const data = await SecureStore.getItemAsync(KEYS.JWT);
+  //     if (data) {
+  //       const object = JSON.parse(data);
+  //       setAuthState((s) => ({ ...s, jwt: object.jwt }));
+  //     }
+  //   })();
+  // }, []);
 
   const login = async (email, password) => {
     const data = await mutateLogin({ email, password });
     if (!!data?.jwt) {
       setAuthState((s) => ({ ...s, jwt: data.jwt }));
+      refetchMe();
     } else {
       setAuthState((s) => ({ ...s, jwt: null }));
+      refetchMe();
     }
     return data;
   };
@@ -92,12 +100,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
-    await SecureStore.deleteItemAsync(KEYS.JWT);
-    setAuthState({
-      jwt: null,
-    });
-  };
+  const logout = mutateLogout().then(() =>
+    setAuthState((s) => ({ ...s, jwt: null, me: null }))
+  );
 
   return (
     <AuthContext.Provider
@@ -105,7 +110,7 @@ export const AuthProvider = ({ children }) => {
         register,
         login,
         logout,
-        authState,
+        ...authState,
       }}
     >
       {children}

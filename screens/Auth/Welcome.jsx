@@ -73,7 +73,9 @@ const Welcome = ({ navigation }) => {
             width: "100%",
             alignItems: "center",
           }}
-          onPress={() => navigation.replace("Login")}
+          onPress={() => {
+            navigation.replace("Login");
+          }}
         >
           <Text
             style={{

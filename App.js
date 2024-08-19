@@ -4,9 +4,8 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { View, Text } from "react-native";
 import Stack from "./screens/Stack";
-import { FONTS, Fonts } from "./constants";
+import { Fonts } from "./constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./context/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -24,12 +23,10 @@ const App = () => {
   return (
     <View style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <NavigationContainer>
-            <StatusBar style="auto" />
-            <Stack />
-          </NavigationContainer>
-        </AuthProvider>
+        <NavigationContainer>
+          <StatusBar style="auto" />
+          <Stack />
+        </NavigationContainer>
       </QueryClientProvider>
     </View>
   );

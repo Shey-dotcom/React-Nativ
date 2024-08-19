@@ -3,7 +3,6 @@ import React from "react";
 import Home from "./AppScreens/Home";
 import Login from "./Auth/Login";
 import Settings from "./AppScreens/Settings";
-import { useUserStore } from "../store";
 import Register from "./Auth/Register";
 import Profile from "./AppScreens/Profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,11 +10,10 @@ import { Ionicons } from "@expo/vector-icons";
 import Welcome from "./Auth/Welcome";
 import Reset from "./Auth/Reset";
 import Forgot from "./Auth/Forgot";
-
+import { useJwtStore, useMeStore } from "../store";
+import { fetchMe } from "../context/handlers";
 const Tab = createBottomTabNavigator();
-
 const Stack = createStackNavigator();
-
 const AppStack = () => {
   return (
     <Tab.Navigator initialRouteName="Home">
@@ -69,6 +67,14 @@ const AuthStack = () => {
 };
 
 export default () => {
-  const { user } = useUserStore();
-  return user ? <AppStack /> : <AuthStack />;
+  const { me, login } = useMeStore();
+  const { jwt } = useJwtStore();
+
+  React.useEffect(() => {
+    (async () => {
+      const user = await fetchMe(jwt);
+      login(user);
+    })();
+  }, [jwt]);
+  return !!me && me.loggedIn ? <AppStack /> : <AuthStack />;
 };
