@@ -4,6 +4,8 @@ import Spinner from "../../components/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { logoutFn } from "../../context/handlers";
 import { useJwtStore, useMeStore } from "../../store";
+import AppHeader from "../../components/AppHeader";
+import { COLORS } from "../../constants";
 
 const Profile = ({ navigation }) => {
   const { jwt, destroy } = useJwtStore();
@@ -20,8 +22,28 @@ const Profile = ({ navigation }) => {
       logout();
     }
   };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      header: () => (
+        <AppHeader
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      ),
+    });
+  }, [navigation]);
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.white,
+      }}
+    >
       <Spinner visible={isPending} />
       <Button title="Logout" onPress={logoutHandler} />
     </View>

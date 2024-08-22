@@ -24,4 +24,4 @@ export const COLORS = {
 
 export const KEYS = { JWT: "jwt-token", ME: "me" };
 
-export const API_URL = "https://4c2b-213-172-134-26.ngrok-free.app";
+export const API_URL = "https://f1da-213-172-134-26.ngrok-free.app";

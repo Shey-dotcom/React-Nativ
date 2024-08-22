@@ -12,18 +12,34 @@ import Reset from "./Auth/Reset";
 import Forgot from "./Auth/Forgot";
 import { useJwtStore, useMeStore } from "../store";
 import { fetchMe } from "../context/handlers";
+import { COLORS, FONTS } from "../constants";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const AppStack = () => {
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: COLORS.green,
+        tabBarInactiveTintColor: "gray",
+        tabBarLabelStyle: {
+          fontFamily: FONTS.bold,
+        },
+        tabBarStyle: {
+          height: 60,
+          paddingBottom: 5,
+          elevation: 0,
+          borderTopWidth: 0,
+        },
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
           headerShown: false,
-          tabBarIcon: () => (
-            <Ionicons name="home-sharp" size={24} color="black" />
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-sharp" size={size} color={color} />
           ),
         }}
       />
@@ -32,8 +48,8 @@ const AppStack = () => {
         component={Profile}
         options={{
           headerShown: false,
-          tabBarIcon: () => (
-            <Ionicons name="person-sharp" size={24} color="black" />
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-sharp" size={size} color={color} />
           ),
         }}
       />
@@ -42,9 +58,10 @@ const AppStack = () => {
         component={Settings}
         options={{
           headerShown: false,
-          tabBarIcon: () => (
-            <Ionicons name="settings" size={24} color="black" />
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings" size={size} color={color} />
           ),
+          tabBarStyle: { display: "none" },
         }}
       />
     </Tab.Navigator>
