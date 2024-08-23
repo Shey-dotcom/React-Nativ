@@ -41,6 +41,8 @@ const AppStack = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-sharp" size={size} color={color} />
           ),
+          //tabBarIcon: () => null,
+          //tabBarLabel: () => null,
         }}
       />
       <Tab.Screen
@@ -51,6 +53,9 @@ const AppStack = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-sharp" size={size} color={color} />
           ),
+          tabBarStyle: { display: "none" },
+          //tabBarIcon: () => null,
+          //tabBarLabel: () => null,
         }}
       />
       <Tab.Screen
@@ -61,7 +66,9 @@ const AppStack = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" size={size} color={color} />
           ),
+
           tabBarStyle: { display: "none" },
+
         }}
       />
     </Tab.Navigator>
