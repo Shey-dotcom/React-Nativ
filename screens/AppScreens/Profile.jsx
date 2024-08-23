@@ -1,4 +1,12 @@
-import { Button, Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
 import React from "react";
 import Spinner from "../../components/Spinner";
 import { useMutation } from "@tanstack/react-query";
@@ -6,10 +14,11 @@ import { logoutFn } from "../../context/handlers";
 import { useJwtStore, useMeStore } from "../../store";
 
 import AppHeader from "../../components/AppHeader";
-import { COLORS } from "../../constants";
-
+import { COLORS, FONTS } from "../../constants";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Profile = ({ navigation }) => {
+  const { bottom } = useSafeAreaInsets();
   const { jwt, destroy } = useJwtStore();
   const { logout } = useMeStore();
   const { isPending, mutateAsync } = useMutation({
@@ -61,21 +70,15 @@ const Profile = ({ navigation }) => {
       <Text
         style={{
           fontFamily: FONTS.bold,
-          fontSize: 24,
+          fontSize: 25,
         }}
       >
         John Doe
       </Text>
-      <Text
-        style={{
-          padding: 20,
-          fontFamily: FONTS.regular,
-          fontSize: 16,
-        }}
-      >
+
+      <Text style={{ padding: 10, fontFamily: FONTS.regular, color: "gray" }}>
         johndoe@gmail.com
       </Text>
-
       <TouchableOpacity
         style={{
           backgroundColor: COLORS.green,
@@ -97,6 +100,19 @@ const Profile = ({ navigation }) => {
           LOGOUT
         </Text>
       </TouchableOpacity>
+      <SafeAreaView
+        style={{
+          alignItems: "center",
+          position: "absolute",
+          paddingBottom: bottom + 20,
+          bottom: 0,
+          width: "100%",
+        }}
+      >
+        <Text style={{ fontFamily: FONTS.regular, color: "gray" }}>
+          Joined 3 December 2020
+        </Text>
+      </SafeAreaView>
     </View>
   );
 };
