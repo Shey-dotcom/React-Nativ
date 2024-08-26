@@ -69,3 +69,16 @@ export const logoutFn = async ({ jwt }) => {
     return { error: e.message };
   }
 };
+
+export const currentWeatherCall = async (queryKey) => {
+  const [_, lat, lon] = queryKey;
+  try {
+    const result = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.EXPO_PUBLIC_API_KEY}`
+    );
+    const json = await result.json();
+    return json;
+  } catch (e) {
+    return { error: e.message };
+  }
+};

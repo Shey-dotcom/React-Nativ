@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Profile = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets();
   const { jwt, destroy } = useJwtStore();
+  const { me } = useMeStore();
   const { logout } = useMeStore();
   const { isPending, mutateAsync } = useMutation({
     mutationFn: logoutFn,
@@ -50,7 +51,6 @@ const Profile = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
         backgroundColor: COLORS.white,
       }}
@@ -63,6 +63,7 @@ const Profile = ({ navigation }) => {
           padding: 100,
           margin: 20,
           borderRadius: 999,
+          marginTop: 30,
         }}
         source={require("../../assets/person.png")}
       />
@@ -73,11 +74,13 @@ const Profile = ({ navigation }) => {
           fontSize: 25,
         }}
       >
-        John Doe
+        @{me?.email?.split(/@/)[0]}
       </Text>
 
-      <Text style={{ padding: 10, fontFamily: FONTS.regular, color: "gray" }}>
-        johndoe@gmail.com
+      <Text
+        style={{ fontFamily: FONTS.regular, color: "gray", marginVertical: 10 }}
+      >
+        {me?.email}
       </Text>
       <TouchableOpacity
         style={{
@@ -87,6 +90,7 @@ const Profile = ({ navigation }) => {
           maxWidth: 300,
           width: "100%",
           alignItems: "center",
+          marginTop: 30,
         }}
         onPress={logoutHandler}
       >
@@ -110,7 +114,7 @@ const Profile = ({ navigation }) => {
         }}
       >
         <Text style={{ fontFamily: FONTS.regular, color: "gray" }}>
-          Joined 3 December 2020
+          Joined {new Date(me?.createdAt).toDateString()}
         </Text>
       </SafeAreaView>
     </View>

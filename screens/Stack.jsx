@@ -13,6 +13,8 @@ import Forgot from "./Auth/Forgot";
 import { useJwtStore, useMeStore } from "../store";
 import { fetchMe } from "../context/handlers";
 import { COLORS, FONTS } from "../constants";
+import { BlurView } from "expo-blur";
+import { StyleSheet, View } from "react-native";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const AppStack = () => {
@@ -21,7 +23,7 @@ const AppStack = () => {
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: COLORS.green,
-        tabBarInactiveTintColor: "gray",
+        tabBarInactiveTintColor: COLORS.white,
         tabBarLabelStyle: {
           fontFamily: FONTS.bold,
         },
@@ -30,7 +32,16 @@ const AppStack = () => {
           paddingBottom: 5,
           elevation: 0,
           borderTopWidth: 0,
+          position: "absolute",
+          backgroundColor: "rgba(0, 0, 0, .0)",
         },
+        tabBarBackground: () => (
+          <BlurView
+            tint="dark"
+            intensity={80}
+            style={StyleSheet.absoluteFill}
+          />
+        ),
       }}
     >
       <Tab.Screen
@@ -68,7 +79,6 @@ const AppStack = () => {
           ),
 
           tabBarStyle: { display: "none" },
-
         }}
       />
     </Tab.Navigator>
