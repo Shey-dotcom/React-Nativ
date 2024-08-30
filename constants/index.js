@@ -22,9 +22,9 @@ export const COLORS = {
   red: "#D32C2D",
 };
 
-export const KEYS = { JWT: "jwt-token", ME: "me" };
+export const KEYS = { JWT: "jwt-token", ME: "me", LOCATION: "location" };
 
-export const API_URL = "https://7ebe-102-66-150-0.ngrok-free.app";
+export const API_URL = "https://2db9-213-172-134-158.ngrok-free.app";
 
 export const BACKGROUNDS = {
   clear: require("../assets/clear.gif"),

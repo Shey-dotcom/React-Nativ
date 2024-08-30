@@ -51,3 +51,13 @@ export const useJwtStore = create()(
     { storage: createJSONStorage(() => storage), name: KEYS.JWT }
   )
 );
+
+export const useLocationStore = create()(
+  persist(
+    (set) => ({
+      location: null,
+      update: (location) => set((state) => ({ ...state, location })),
+    }),
+    { storage: createJSONStorage(() => storage), name: KEYS.LOCATION }
+  )
+);
