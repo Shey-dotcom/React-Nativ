@@ -10,18 +10,26 @@ import { Ionicons } from "@expo/vector-icons";
 import Welcome from "./Auth/Welcome";
 import Reset from "./Auth/Reset";
 import Forgot from "./Auth/Forgot";
-import { useJwtStore, useMeStore } from "../store";
+import { useJwtStore, useLocationStore, useMeStore } from "../store";
 import { fetchMe } from "../context/handlers";
 import { COLORS, FONTS } from "../constants";
+import { BlurView } from "expo-blur";
+import { StyleSheet } from "react-native";
+import { useCurrentLocation } from "../hooks/useCurrentLocation";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const AppStack = () => {
+  const { location } = useCurrentLocation();
+  const { update } = useLocationStore();
+  React.useEffect(() => {
+    update(location);
+  }, [location]);
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: COLORS.green,
-        tabBarInactiveTintColor: "gray",
+        tabBarInactiveTintColor: COLORS.white,
         tabBarLabelStyle: {
           fontFamily: FONTS.bold,
         },
@@ -30,7 +38,16 @@ const AppStack = () => {
           paddingBottom: 5,
           elevation: 0,
           borderTopWidth: 0,
+          position: "absolute",
+          backgroundColor: "rgba(0, 0, 0, .0)",
         },
+        tabBarBackground: () => (
+          <BlurView
+            tint="dark"
+            intensity={80}
+            style={StyleSheet.absoluteFill}
+          />
+        ),
       }}
     >
       <Tab.Screen
