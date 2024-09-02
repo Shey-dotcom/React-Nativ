@@ -68,7 +68,6 @@ const AppStack = () => {
           ),
 
           tabBarStyle: { display: "none" },
-
         }}
       />
     </Tab.Navigator>
