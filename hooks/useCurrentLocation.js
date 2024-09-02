@@ -5,7 +5,6 @@ import { useLocationPermission } from "./useLocationPermission";
 export const useCurrentLocation = () => {
   const [location, setLocation] = React.useState(null);
   const { granted } = useLocationPermission();
-  console.log({ granted });
   React.useEffect(() => {
     if (granted) {
       Location.getCurrentPositionAsync().then(
