@@ -70,6 +70,41 @@ export const logoutFn = async ({ jwt }) => {
   }
 };
 
+export const forgotFn = async ({ email }) => {
+  try {
+    const result = await fetch(`${API_URL}/api/v1/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const json = await result.json();
+    return json;
+  } catch (e) {
+    return { error: e.message };
+  }
+};
+
+export const changeFn = async ({ password, confirm, jwt }) => {
+  try {
+    const result = await fetch(`${API_URL}/api/v1/auth/change-password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
+      },
+      credentials: true,
+      body: JSON.stringify({ password, confirm }),
+    });
+    const json = await result.json();
+    return json;
+  } catch (e) {
+    console.log({ e });
+    return { error: e.message };
+  }
+};
+
 export const currentWeatherCall = async (queryKey) => {
   const [_, lat, lon] = queryKey;
 
