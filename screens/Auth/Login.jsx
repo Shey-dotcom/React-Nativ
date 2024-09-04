@@ -130,7 +130,7 @@ const Login = ({ navigation }) => {
             <TextInput
               placeholder="Password"
               keyboardType="default"
-              secureTextEntry={state.show}
+              secureTextEntry={!state.show}
               style={{
                 backgroundColor: COLORS.gray,
                 flex: 1,
