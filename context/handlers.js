@@ -70,6 +70,23 @@ export const logoutFn = async ({ jwt }) => {
   }
 };
 
+export const deleteFn = async ({ jwt }) => {
+  try {
+    const result = await fetch(`${API_URL}/api/v1/auth/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
+      },
+      credentials: true,
+    });
+    const json = await result.json();
+    return json;
+  } catch (e) {
+    return { error: e.message };
+  }
+};
+
 export const forgotFn = async ({ email }) => {
   try {
     const result = await fetch(`${API_URL}/api/v1/auth/reset-password`, {

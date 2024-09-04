@@ -5,8 +5,31 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import AppHeader from "../../components/AppHeader";
+import { useMutation } from "@tanstack/react-query";
+import { deleteFn } from "../../context/handlers";
+import Spinner from "../../components/Spinner";
+import { useJwtStore, useMeStore } from "../../store";
+import ChangePasswordBottomSheet from "../../components/ChangePasswordBottomSheet";
 const Settings = ({ navigation }) => {
+  const changePasswordBottomSheetRef = React.useRef(null);
   const { bottom } = useSafeAreaInsets();
+  const { jwt, destroy } = useJwtStore();
+  const { logout } = useMeStore();
+  const { isPending, mutateAsync: mutateDeleteAccount } = useMutation({
+    mutationFn: deleteFn,
+    mutationKey: ["delete"],
+  });
+
+  const deleteAccount = async () => {
+    const data = await mutateDeleteAccount({ jwt });
+    if (!!data?.success) {
+      destroy();
+      logout();
+    }
+  };
+  const changePassword = () => {
+    changePasswordBottomSheetRef.current?.present();
+  };
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -27,6 +50,8 @@ const Settings = ({ navigation }) => {
         backgroundColor: COLORS.white,
       }}
     >
+      <ChangePasswordBottomSheet ref={changePasswordBottomSheetRef} />
+      <Spinner visible={isPending} />
       <View
         style={{
           borderBottomWidth: 0.5,
@@ -44,13 +69,13 @@ const Settings = ({ navigation }) => {
         desc={"Update location settings."}
       />
       <SettingsItem
-        onPress={() => {}}
+        onPress={deleteAccount}
         label={"Delete account"}
         Icon={<Ionicons name="person-remove" size={24} color={"gray"} />}
         desc={"Delete your account."}
       />
       <SettingsItem
-        onPress={() => {}}
+        onPress={changePassword}
         label={"Change password"}
         Icon={<Ionicons name="lock-closed" size={24} color={"gray"} />}
         desc={"Change your account password."}

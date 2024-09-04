@@ -20,8 +20,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Profile = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets();
   const { jwt, destroy } = useJwtStore();
-  const { me } = useMeStore();
-  const { logout } = useMeStore();
+  const { me, logout } = useMeStore();
+
   const { isPending, mutateAsync } = useMutation({
     mutationFn: logoutFn,
     mutationKey: ["logout"],
