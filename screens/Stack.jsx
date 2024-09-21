@@ -10,7 +10,12 @@ import { Ionicons } from "@expo/vector-icons";
 import Welcome from "./Auth/Welcome";
 import Reset from "./Auth/Reset";
 import Forgot from "./Auth/Forgot";
-import { useJwtStore, useLocationStore, useMeStore } from "../store";
+import {
+  useJwtStore,
+  useLocationStore,
+  useMeStore,
+  useSettingsStore,
+} from "../store";
 import { fetchMe } from "../context/handlers";
 import { COLORS, FONTS } from "../constants";
 import { BlurView } from "expo-blur";
@@ -21,9 +26,11 @@ const Stack = createStackNavigator();
 const AppStack = () => {
   const { location } = useCurrentLocation();
   const { update } = useLocationStore();
+
   React.useEffect(() => {
     update(location);
   }, [location]);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"

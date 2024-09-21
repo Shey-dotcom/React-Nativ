@@ -3,7 +3,7 @@ import React from "react";
 import { COLORS, FONTS } from "../constants";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
-const Main = ({ weather }) => {
+const Main = ({ weather, textStyles }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View
@@ -15,29 +15,35 @@ const Main = ({ weather }) => {
         }}
       >
         <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 18,
-            fontFamily: FONTS.regular,
-          }}
+          style={[
+            {
+              fontSize: 18,
+              fontFamily: FONTS.regular,
+            },
+            textStyles,
+          ]}
         >
           L {weather.main.temp_min.toFixed(0)}°C
         </Text>
         <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 30,
-            fontFamily: FONTS.bold,
-          }}
+          style={[
+            {
+              fontSize: 30,
+              fontFamily: FONTS.bold,
+            },
+            textStyles,
+          ]}
         >
           {weather.main.temp.toFixed(0)}°C
         </Text>
         <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 18,
-            fontFamily: FONTS.regular,
-          }}
+          style={[
+            {
+              fontSize: 18,
+              fontFamily: FONTS.regular,
+            },
+            textStyles,
+          ]}
         >
           H {weather.main.temp_max.toFixed(0)}°C
         </Text>
@@ -53,7 +59,7 @@ const Main = ({ weather }) => {
       />
       <Text
         style={{
-          color: COLORS.white,
+          ...textStyles,
           fontSize: 18,
           fontFamily: FONTS.regular,
         }}
@@ -70,7 +76,7 @@ const Main = ({ weather }) => {
         >
           <Text
             style={{
-              color: COLORS.white,
+              ...textStyles,
               fontSize: 18,
               fontFamily: FONTS.regular,
             }}
@@ -81,11 +87,11 @@ const Main = ({ weather }) => {
             <FontAwesome5
               name="cloud-moon-rain"
               size={24}
-              color={COLORS.white}
+              color={textStyles.color}
             />
             <Text
               style={{
-                color: COLORS.white,
+                ...textStyles,
                 fontSize: 18,
                 fontFamily: FONTS.regular,
               }}
@@ -102,7 +108,7 @@ const Main = ({ weather }) => {
         >
           <Text
             style={{
-              color: COLORS.white,
+              ...textStyles,
               fontSize: 18,
               fontFamily: FONTS.regular,
             }}
@@ -110,10 +116,10 @@ const Main = ({ weather }) => {
             Pressure
           </Text>
           <View style={{ flexDirection: "row", gap: 10 }}>
-            <FontAwesome name="compress" size={24} color="white" />
+            <FontAwesome name="compress" size={24} color={textStyles.color} />
             <Text
               style={{
-                color: COLORS.white,
+                ...textStyles,
                 fontSize: 18,
                 fontFamily: FONTS.regular,
               }}

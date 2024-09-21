@@ -22,18 +22,18 @@ const App = () => {
   }
 
   return (
-    <GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <View style={{ flex: 1 }}>
-          <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <View style={{ flex: 1 }}>
             <NavigationContainer>
               <StatusBar style="auto" />
               <Stack />
             </NavigationContainer>
-          </QueryClientProvider>
-        </View>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   );
 };
 

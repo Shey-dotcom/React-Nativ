@@ -3,7 +3,7 @@ import React from "react";
 import { COLORS, FONTS } from "../constants";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 
-const Wind = ({ weather }) => {
+const Wind = ({ weather, textStyles }) => {
   const CAMPUS_DIM = 150;
   return (
     <View
@@ -18,15 +18,15 @@ const Wind = ({ weather }) => {
         <Text
           style={{
             fontFamily: FONTS.bold,
-            color: COLORS.white,
             fontSize: 18,
+            ...textStyles,
           }}
         >
           Wind Speed
         </Text>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Feather name="wind" size={24} color="white" />
-          <Text style={{ color: COLORS.white, fontFamily: FONTS.regular }}>
+          <Feather name="wind" size={24} color={textStyles.color} />
+          <Text style={{ ...textStyles, fontFamily: FONTS.regular }}>
             {weather.wind.speed} m/s
           </Text>
         </View>
@@ -35,7 +35,7 @@ const Wind = ({ weather }) => {
         <Text
           style={{
             fontFamily: FONTS.bold,
-            color: COLORS.white,
+            ...textStyles,
             fontSize: 18,
           }}
         >
@@ -51,7 +51,7 @@ const Wind = ({ weather }) => {
             overflow: "hidden",
             alignItems: "center",
             justifyContent: "center",
-            borderColor: COLORS.white,
+            borderColor: textStyles.color,
           }}
         >
           {[
@@ -64,11 +64,13 @@ const Wind = ({ weather }) => {
               key={index}
               style={[
                 styles.tick,
+
                 {
                   position: "absolute",
                   right,
                   top,
                   transform: [{ rotate: rotation }],
+                  backgroundColor: textStyles.color,
                 },
               ]}
             />
@@ -105,6 +107,7 @@ const Wind = ({ weather }) => {
                   right,
                   top,
                 },
+                textStyles,
               ]}
             >
               {value}

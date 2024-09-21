@@ -10,8 +10,12 @@ import { deleteFn } from "../../context/handlers";
 import Spinner from "../../components/Spinner";
 import { useJwtStore, useMeStore } from "../../store";
 import ChangePasswordBottomSheet from "../../components/ChangePasswordBottomSheet";
+import LocationBottomSheet from "../../components/LocationBottomSheet";
+import UnitsBottomSheet from "../../components/UnitsBottomSheet";
 const Settings = ({ navigation }) => {
   const changePasswordBottomSheetRef = React.useRef(null);
+  const locationBottomSheetRef = React.useRef(null);
+  const unitsBottomSheetRef = React.useRef(null);
   const { bottom } = useSafeAreaInsets();
   const { jwt, destroy } = useJwtStore();
   const { logout } = useMeStore();
@@ -29,6 +33,14 @@ const Settings = ({ navigation }) => {
   };
   const changePassword = () => {
     changePasswordBottomSheetRef.current?.present();
+  };
+
+  const changeLocation = () => {
+    locationBottomSheetRef.current?.present();
+  };
+
+  const changeUnits = () => {
+    unitsBottomSheetRef.current?.present();
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,6 +63,8 @@ const Settings = ({ navigation }) => {
       }}
     >
       <ChangePasswordBottomSheet ref={changePasswordBottomSheetRef} />
+      <LocationBottomSheet ref={locationBottomSheetRef} />
+      <UnitsBottomSheet ref={unitsBottomSheetRef} />
       <Spinner visible={isPending} />
       <View
         style={{
@@ -63,10 +77,17 @@ const Settings = ({ navigation }) => {
         <Text style={{ fontFamily: FONTS.bold, fontSize: 20 }}>Settings</Text>
       </View>
       <SettingsItem
-        onPress={() => {}}
+        onPress={changeLocation}
         label={"Location settings"}
         Icon={<Ionicons name="location" size={24} color={"gray"} />}
         desc={"Update location settings."}
+      />
+
+      <SettingsItem
+        onPress={changeUnits}
+        label={"Default Units"}
+        Icon={<Ionicons name="umbrella-outline" size={24} color={"gray"} />}
+        desc={"Update your unit of measurement."}
       />
       <SettingsItem
         onPress={deleteAccount}

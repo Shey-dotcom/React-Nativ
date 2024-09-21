@@ -61,3 +61,13 @@ export const useLocationStore = create()(
     { storage: createJSONStorage(() => storage), name: KEYS.LOCATION }
   )
 );
+
+export const useSettingsStore = create()(
+  persist(
+    (set) => ({
+      settings: null,
+      update: (settings) => set((state) => ({ ...state, settings })),
+    }),
+    { storage: createJSONStorage(() => storage), name: KEYS.SETTINGS }
+  )
+);
