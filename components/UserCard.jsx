@@ -1,43 +1,71 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useLocationStore, useMeStore } from "../store";
-import { COLORS, FONTS } from "../constants";
+import { FONTS } from "../constants";
+import { Ionicons } from "@expo/vector-icons";
+import LocationBottomSheet from "./LocationBottomSheet";
 
-const UserCard = () => {
+const UserCard = ({ textStyles }) => {
   const { me } = useMeStore();
   const { location } = useLocationStore();
+  const locationBottomSheetRef = React.useRef(null);
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text
+    <>
+      <LocationBottomSheet ref={locationBottomSheetRef} />
+      <View
         style={{
-          color: COLORS.white,
-          fontSize: 20,
-          fontFamily: FONTS.bold,
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
         }}
       >
-        Hi, @{me?.email?.split(/@/)[0]}
-      </Text>
-      <View style={{ alignItems: "center", padding: 20 }}>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 40,
+            left: 20,
+            width: 40,
+            height: 40,
+            borderRadius: 40,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => locationBottomSheetRef.current?.present()}
+        >
+          <Ionicons name="menu-outline" size={25} color={textStyles.color} />
+        </TouchableOpacity>
         <Text
           style={{
-            color: COLORS.white,
+            ...textStyles,
             fontSize: 20,
             fontFamily: FONTS.bold,
           }}
         >
-          {location?.reversed?.city}
+          Hi, @{me?.email?.split(/@/)[0]}
         </Text>
-        <Text
-          style={{
-            color: COLORS.white,
-            fontSize: 14,
-            fontFamily: FONTS.regular,
-          }}
-        >
-          {location?.reversed?.formattedAddress}
-        </Text>
+        <View style={{ alignItems: "center", padding: 20 }}>
+          <Text
+            style={{
+              ...textStyles,
+              fontSize: 20,
+              fontFamily: FONTS.bold,
+            }}
+          >
+            {location?.reversed?.city}
+          </Text>
+          <Text
+            style={{
+              ...textStyles,
+              fontSize: 14,
+              fontFamily: FONTS.regular,
+            }}
+          >
+            {location?.reversed?.formattedAddress}
+          </Text>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

@@ -1,25 +1,31 @@
 import { ImageBackground } from "react-native";
 import React from "react";
-import { useLocationStore } from "../../store";
-import { BACKGROUNDS } from "../../constants";
+import { WEATHER_STYLES } from "../../constants";
 import { useQuery } from "@tanstack/react-query";
 import { currentWeatherCall } from "../../context/handlers";
 import UserCard from "../../components/UserCard";
 import Main from "../../components/Main";
 import Wind from "../../components/Wind";
+import { useLocationStore, useSettingsStore } from "../../store";
 
 const Home = ({ navigation }) => {
+  const { settings } = useSettingsStore();
   const { location } = useLocationStore();
-  const [bg, setBg] = React.useState(BACKGROUNDS.default);
+  const [styles, setStyles] = React.useState(WEATHER_STYLES.default);
   const { data: weather } = useQuery({
-    queryKey: ["weather", location?.latitude, location?.longitude],
+    queryKey: [
+      "weather",
+      location?.latitude,
+      location?.longitude,
+      settings?.units,
+    ],
     queryFn: ({ queryKey }) => currentWeatherCall(queryKey),
   });
 
   React.useEffect(() => {
     if (weather?.weather[0]?.main) {
       const b = weather.weather[0].main.toLowerCase();
-      setBg(BACKGROUNDS[b]);
+      setStyles(WEATHER_STYLES[b]);
     }
   }, [weather]);
   return (
@@ -30,12 +36,15 @@ const Home = ({ navigation }) => {
         backgroundColor: "#f5f5f5",
         width: "100%",
       }}
-      source={bg}
+      source={styles.image}
     >
-      <UserCard />
-
-      {weather?.weather ? <Main weather={weather} /> : null}
-      {weather?.weather ? <Wind weather={weather} /> : null}
+      <UserCard textStyles={styles.textStyles} />
+      {weather?.weather ? (
+        <Main weather={weather} textStyles={styles.textStyles} />
+      ) : null}
+      {weather?.weather ? (
+        <Wind weather={weather} textStyles={styles.textStyles} />
+      ) : null}
     </ImageBackground>
   );
 };

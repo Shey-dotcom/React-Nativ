@@ -6,7 +6,8 @@ import { View, Text } from "react-native";
 import Stack from "./screens/Stack";
 import { Fonts } from "./constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -21,14 +22,18 @@ const App = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <StatusBar style="auto" />
-          <Stack />
-        </NavigationContainer>
-      </QueryClientProvider>
-    </View>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <View style={{ flex: 1 }}>
+            <NavigationContainer>
+              <StatusBar style="auto" />
+              <Stack />
+            </NavigationContainer>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   );
 };
 

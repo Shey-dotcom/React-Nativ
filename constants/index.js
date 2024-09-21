@@ -1,3 +1,5 @@
+import { StyleSheet } from "react-native";
+
 export const Fonts = {
   LatoBold: require("../assets/fonts/Lato-Bold.ttf"),
   LatoItalic: require("../assets/fonts/Lato-Italic.ttf"),
@@ -22,16 +24,41 @@ export const COLORS = {
   red: "#D32C2D",
 };
 
-export const KEYS = { JWT: "jwt-token", ME: "me", LOCATION: "location" };
-
-<<<<<<< HEAD
-export const API_URL = "https://1c91-197-221-102-22.ngrok-free.app";
-=======
-export const API_URL = "https://2db9-213-172-134-158.ngrok-free.app";
-
-export const BACKGROUNDS = {
-  clear: require("../assets/clear.gif"),
-  default: require("../assets/default.gif"),
-  rain: require("../assets/rain.gif"),
+export const KEYS = {
+  JWT: "jwt-token",
+  ME: "me",
+  LOCATION: "location",
+  SETTINGS: "settings",
 };
->>>>>>> 5a45b7c88737b1d690c9f59a93d2e005872f5f33
+export const API_URL = "https:///23bc-213-172-134-127.ngrok-free.app";
+
+const styles = StyleSheet.create({
+  light: { color: COLORS.black },
+  dark: { color: COLORS.white },
+});
+
+export const WEATHER_STYLES = {
+  clear: {
+    image: require("../assets/clear.gif"),
+    textStyles: styles.light,
+  },
+  default: {
+    image: require("../assets/default.gif"),
+    textStyles: styles.light,
+  },
+  rain: { image: require("../assets/rain.gif"), textStyles: styles.dark },
+  snow: { image: require("../assets/snow.gif"), textStyles: styles.dark },
+  clouds: { image: require("../assets/clouds.gif"), textStyles: styles.dark },
+  thunderstorm: {
+    image: require("../assets/thunderstorm.gif"),
+    textStyles: styles.light,
+  },
+  drizzle: {
+    image: require("../assets/drizzle.gif"),
+    textStyles: styles.dark,
+  },
+  atmosphere: {
+    image: require("../assets/atmosphere.gif"),
+    textStyles: styles.light,
+  },
+};
